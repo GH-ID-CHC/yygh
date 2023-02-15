@@ -24,7 +24,7 @@ export default {
     return request({
       url: `${api_name}/batchRemove`,  //应用变量  斜引号
       method: 'delete',
-      data:ids,
+      data:ids
     })
   },
 }

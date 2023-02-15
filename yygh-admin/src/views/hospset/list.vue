@@ -18,16 +18,17 @@
     <div>
          
       <el-button type="danger" size="mini" @click="delHospSetByIds()"
-        >批量删除</el-button
-      >
+        >批量删除</el-button>
     </div>
-    <!-- banner列表 -->
+    <!-- banner列表(复选框) -->
+    <!-- selection-change="handleSelectionChange 选中就会改变 -->
     <el-table
       :data="list"
       stripe
       style="width: 100%"
       @selection-change="handleSelectionChange"
     >
+    
       <el-table-column type="selection" width="55" />
       <el-table-column type="index" width="50" />
       <el-table-column prop="hosname" label="医院名称" />
@@ -78,6 +79,7 @@ export default {
       }, //查询条件
       list: [], //用于接受请求返回值
       total: 0, //总记录数
+      multipleSelection: [], // 复选框选择的记录列表
     };
   },
   created() {
@@ -123,6 +125,11 @@ export default {
           });
       });
     },
+    // 当复选框发生变化的时候触发方法
+    handleSelectionChange(selection){
+      // 接受变化的列表对象
+        this.multipleSelection=selection;
+    },
     delHospSetByIds(ids) {
       this.$confirm("此操作将永久删除医院是设置信息, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -130,10 +137,30 @@ export default {
         type: "warning",
       }).then(() => {
         //确定执行then方法
+        var idList=[];
+        //获取复选框中发生变化的列表
+        for (var i = 0; i < this.multipleSelection.length; i++) {
+          var element = this.multipleSelection[i];
+          var id=element.id;
+          idList.push(id)
+        }
+        //调用批量删除的接口
         hospitalSetApi
-          .delHospSetByIds()
-          .then((response) => {})
-          .catch((error) => {});
+          .deleHospSetById(idList)
+          .then((response) => {
+            this.$message({
+              message: "删除成功",
+              type: "success",
+            });
+            //刷新列表
+            this.getList(this.current);
+          })
+          .catch((error) => {
+            this.$message({
+              type: "error",
+              message: "删除失败",
+            });
+          });
       });
     },
   },
