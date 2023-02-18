@@ -33,6 +33,14 @@ export default {
       url: `${api_name}/lockHospitalSet/${id}/${stuts}`,  //应用变量  斜引号
       method: 'put'
     })
+  },
+  //添加医院的信息
+  addHospital(hosp){
+    return request({
+      url: `${api_name}/saveHospitalSet/`,  //应用变量  斜引号
+      method: 'post',
+      data:hosp
+    })
   }
 }
 
