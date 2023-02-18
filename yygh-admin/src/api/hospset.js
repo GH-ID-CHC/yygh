@@ -27,5 +27,12 @@ export default {
       data:ids
     })
   },
+  //锁定和解锁，医院的状态
+  lockHospitalSet(id,stuts){
+    return request({
+      url: `${api_name}/lockHospitalSet/${id}/${stuts}`,  //应用变量  斜引号
+      method: 'put'
+    })
+  }
 }
 

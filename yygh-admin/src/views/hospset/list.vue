@@ -38,7 +38,13 @@
       <el-table-column prop="contactsPhone" label="联系人手机" />
       <el-table-column label="状态" width="80">
         <template slot-scope="scope">
-          {{ scope.row.status === 1 ? "可用" : "不可用" }}
+          <!-- {{ scope.row.status === 1 ? "可用" : "不可用" }} -->
+          <el-switch
+            v-model="scope.row.status"
+            :active-value="1" 
+            :inactive-value="0" 
+            @change="handleChangeStatus($event,scope.row.id)">
+          </el-switch>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="80" align="center">
@@ -126,23 +132,55 @@ export default {
       });
     },
     // 当复选框发生变化的时候触发方法
-    handleSelectionChange(selection){
+    handleSelectionChange(selection) {
       // 接受变化的列表对象
-        this.multipleSelection=selection;
+      this.multipleSelection = selection;
     },
-    delHospSetByIds(ids) {
+    //锁定或解锁账号
+    handleChangeStatus(status,id){
+        this.$confirm(`是否确认${status ? '开启' : '关闭'}状态开关？`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(()=>{
+        hospitalSetApi
+        .lockHospitalSet(id,status)
+        .then((response) => {
+          this.$message({
+            message: "修改成功",
+            type: "success",
+          });
+          //刷新列表
+          this.getList(this.current);
+        })
+        .catch((error) => {
+          this.$message({
+            type: "error",
+            message: "修改失败",
+          });
+        });
+      }).catch(()=>{
+          this.$message({
+            message: "取消成功",
+            type: "success",
+          });
+      	  this.getList(this.current);
+      });  
+    },
+    //批量删除
+    delHospSetByIds() {
       this.$confirm("此操作将永久删除医院是设置信息, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
         //确定执行then方法
-        var idList=[];
+        var idList = [];
         //获取复选框中发生变化的列表
         for (var i = 0; i < this.multipleSelection.length; i++) {
           var element = this.multipleSelection[i];
-          var id=element.id;
-          idList.push(id)
+          var id = element.id;
+          idList.push(id);
         }
         //调用批量删除的接口
         hospitalSetApi
