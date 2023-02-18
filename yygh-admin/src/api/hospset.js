@@ -41,6 +41,21 @@ export default {
       method: 'post',
       data:hosp
     })
+  },
+  //根据id获取数据（数据的回显）
+  getHospSet(id){
+    return request({
+      url: `${api_name}/getHospSet/${id}`,  //应用变量  斜引号
+      method: 'get',
+    })
+  },
+  //修改医院数据
+  updateHospSet(hosp){
+    return request({
+      url: `${api_name}/updateHospSet/`,  //应用变量  斜引号
+      method: 'put',
+      data:hosp
+    })
   }
 }
 

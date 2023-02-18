@@ -18,7 +18,8 @@
     <div>
          
       <el-button type="danger" size="mini" @click="delHospSetByIds()"
-        >批量删除</el-button>
+        >批量删除</el-button
+      >
     </div>
     <!-- banner列表(复选框) -->
     <!-- selection-change="handleSelectionChange 选中就会改变 -->
@@ -28,7 +29,6 @@
       style="width: 100%"
       @selection-change="handleSelectionChange"
     >
-    
       <el-table-column type="selection" width="55" />
       <el-table-column type="index" width="50" />
       <el-table-column prop="hosname" label="医院名称" />
@@ -42,15 +42,24 @@
           <!-- 开关状态 -->
           <el-switch
             v-model="scope.row.status"
-            :active-value="1" 
-            :inactive-value="0" 
-            @change="handleChangeStatus($event,scope.row.id)">
+            :active-value="1"
+            :inactive-value="0"
+            @change="handleChangeStatus($event, scope.row.id)"
+          >
           </el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="80" align="center">
-        <template slot-scope="scope"
-          >     
+      <el-table-column label="操作" width="170" align="center">
+        <template slot-scope="scope">
+          <!-- 修改按钮 -->
+          <router-link :to="'/hospSet/edit/' + scope.row.id">     
+            <el-button
+              type="primary"
+              size="mini"
+              icon="el-icon-edit"
+            >修改</el-button>
+          </router-link>
+          <!-- 删除 -->
           <el-button
             type="danger"
             size="mini"
@@ -138,35 +147,37 @@ export default {
       this.multipleSelection = selection;
     },
     //锁定或解锁账号
-    handleChangeStatus(status,id){
-        this.$confirm(`是否确认${status ? '开启' : '关闭'}状态开关？`, "提示", {
+    handleChangeStatus(status, id) {
+      this.$confirm(`是否确认${status ? "开启" : "关闭"}状态开关？`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
-      }).then(()=>{
-        hospitalSetApi
-        .lockHospitalSet(id,status)
-        .then((response) => {
-          this.$message({
-            message: "修改成功",
-            type: "success",
-          });
-          //刷新列表
-          this.getList(this.current);
+        type: "warning",
+      })
+        .then(() => {
+          hospitalSetApi
+            .lockHospitalSet(id, status)
+            .then((response) => {
+              this.$message({
+                message: "修改成功",
+                type: "success",
+              });
+              //刷新列表
+              this.getList(this.current);
+            })
+            .catch((error) => {
+              this.$message({
+                type: "error",
+                message: "修改失败",
+              });
+            });
         })
-        .catch((error) => {
-          this.$message({
-            type: "error",
-            message: "修改失败",
-          });
-        });
-      }).catch(()=>{
+        .catch(() => {
           this.$message({
             message: "取消成功",
             type: "success",
           });
-      	  this.getList(this.current);
-      });  
+          this.getList(this.current);
+        });
     },
     //批量删除
     delHospSetByIds() {
