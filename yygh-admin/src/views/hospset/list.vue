@@ -39,6 +39,7 @@
       <el-table-column label="状态" width="80">
         <template slot-scope="scope">
           <!-- {{ scope.row.status === 1 ? "可用" : "不可用" }} -->
+          <!-- 开关状态 -->
           <el-switch
             v-model="scope.row.status"
             :active-value="1" 
