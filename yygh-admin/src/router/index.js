@@ -62,8 +62,25 @@ export const constantRouterMap = [
         component: () => import('@/views/hospset/add'),
         meta: { title: '编辑', noCache: true},
         hidden: true  //隐藏路由的设置
-      }
+      },
+      
     ]
+  },
+  {
+    path: '/cmn',
+    component: Layout,
+    redirect: '/cmn/list',
+    name: '数据管理',
+    alwaysShow: true,
+    meta: { title: '数据管理', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: '数据字典',
+        component: () => import('@/views/dict/list'),
+        meta: { title: '数据字典', icon: 'table' }
+      }
+    ]
   },
 
   {
