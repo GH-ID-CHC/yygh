@@ -43,7 +43,10 @@ export default {
       if(this.$route.params && this.$route.params.id) {//有参数&&有id
          const id = this.$route.params.id
          this.getHostSet(id)
-      }
+      }else{
+        //使用添加功能时，将表单进行清空
+        this.hospitalSet={};
+      }
     },
     methods: {
         //表单提交或修改
