@@ -71,7 +71,7 @@ export default {
   data() {
     return {
       list: [], //列表数据
-      dialogImportVisible:false,//不显示导入弹出框
+      dialogImportVisible: false, //不显示导入弹出框
     };
   },
   created() {
@@ -98,16 +98,16 @@ export default {
     //文件内容导入到数据库
     importData() {
       //将导入的弹出框设置显示
-      this.dialogImportVisible=true
+      this.dialogImportVisible = true;
     },
     //导入成功后调用的方法
-    onUploadSuccess(){
+    onUploadSuccess() {
       //关闭页面的弹窗
-      this.dialogImportVisible=false;
-      
+      this.dialogImportVisible = false;
+
       //重新加载页面
-      this.getDictList(1)
-    }
+      this.getDictList(1);
+    },
   },
 };
 </script>

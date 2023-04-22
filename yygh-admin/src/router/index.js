@@ -63,6 +63,12 @@ export const constantRouterMap = [
         meta: { title: '编辑', noCache: true},
         hidden: true  //隐藏路由的设置
       },
+      {
+        path: 'hosp/list',
+        name: '医院列表',
+        component: () => import('@/views/hosp/list'),
+        meta: { title: '医院列表', icon: 'tree' }
+      },
       
     ]
   },

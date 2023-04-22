@@ -89,7 +89,7 @@ export default {
   data() {
     return {
       current: 1, //当前页码
-      limit: 3, //每页记录书
+      limit: 3, //每页记录数
       searchObj: {
         //hosname: "人民",
       }, //查询条件
