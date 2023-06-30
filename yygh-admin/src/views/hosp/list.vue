@@ -75,6 +75,22 @@
       <el-table-column prop="createTime" label="创建时间" />
 
       <el-table-column label="操作" width="230" align="center">
+        <template slot-scope="scope">
+          <el-button
+            v-if="scope.row.status == 1"
+            type="primary"
+            size="mini"
+            @click="updateStatus(scope.row.id, 0)"
+            >下线</el-button
+          >
+          <el-button
+            v-if="scope.row.status == 0"
+            type="danger"
+            size="mini"
+            @click="updateStatus(scope.row.id, 1)"
+            >上线</el-button
+          >
+        </template>
       </el-table-column>
     </el-table>
 
@@ -105,7 +121,7 @@ export default {
       searchObj: {}, // 查询表单对象
       provinceList: [], //省份的列表
       cityList: [], //市列表
-      districtList: [],
+      districtList: []
     };
   }, // 生命周期函数：内存准备完毕，页面尚未渲染
 
@@ -113,30 +129,37 @@ export default {
     console.log("list created......");
     this.fetchData();
 
-    hospitalApi.getDictCode("Province").then((response) => {
+    hospitalApi.getDictCode("Province").then(response => {
       this.provinceList = response.data;
     });
   },
   methods: {
-    fetchData(page=1) {
-      console.log("当前页码"+page)
-      this.page=page
+    updateStatus(id,status){
+      hospitalApi.updateStatus(id,status).then((res)=>{
+        if(res.code==200){
+          //刷新列表
+          this.fetchData(this.page)
+        }
+      })
+    },
+    //获取医院的列表信息
+    fetchData(page = 1) {
+      console.log("当前页码" + page);
+      this.page = page;
       console.log("条件" + this.searchObj);
       hospitalApi
         .getPageList(this.page, this.limit, this.searchObj)
-        .then((res) => {
+        .then(res => {
           if (res.code == 200) {
-            console.log("成功");
             //返回数据成功
             this.list = res.data.content;
             this.total = res.data.totalElements;
-            console.log(this.total);
             this.listLoading = false;
           }
         });
     },
     provinceChanged() {
-      console.dir(this.searchObj)
+      console.dir(this.searchObj);
       console.log("查看" + this.searchObj.cityCode);
       //当省中选择的数据改变时
       // this.cityList = [];
@@ -144,10 +167,10 @@ export default {
       // this.districtList = [];
       // this.searchObj.districtCode = null;
 
-      hospitalApi.getChildData(this.searchObj.provinceCode).then((res) => {
+      hospitalApi.getChildData(this.searchObj.provinceCode).then(res => {
         if (res.code === 200) {
           this.cityList = res.data;
-          console.dir(this.cityList)
+          console.dir(this.cityList);
           console.log("返回的数据" + this.cityList.name);
         }
       });
@@ -159,12 +182,12 @@ export default {
     },
     changeSize(size) {
       //当每页记录发生变化时执行
-      console.log("当前页数量"+size);
+      console.log("当前页数量" + size);
       this.limit = size;
       //重新刷新列表，返回变化后的数量
       this.fetchData(1);
-    },
-  },
+    }
+  }
 };
 </script>
 

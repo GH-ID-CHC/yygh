@@ -7,7 +7,7 @@ export default {
   // 条件查询
   getPageList(page, limit,searchObj) {
     return request({
-      url: `${api_name}/${page}/${limit}`, //应用变量  斜引号
+      url: `${api_name}/list/${page}/${limit}`, //应用变量  斜引号
       method: "get",
       params: searchObj //条件对象通过参数提交
     });
@@ -23,6 +23,13 @@ export default {
   getDictCode(dictCode){
     return request({
       url:`/admin/cmn/dict/findByDictCode/${dictCode}`,
+      method:'GET'
+    })
+  },
+  //修改医院的在线状态
+  updateStatus(id,status){
+    return request({
+      url:`${api_name}/updateStatus/${id}/${status}`,
       method:'GET'
     })
   }
