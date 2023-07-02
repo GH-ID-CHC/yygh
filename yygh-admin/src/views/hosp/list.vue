@@ -76,6 +76,9 @@
 
       <el-table-column label="操作" width="230" align="center">
         <template slot-scope="scope">
+          <router-link :to="'/hospSet/hospital/show/' + scope.row.id">
+                 <el-button type="primary" size="mini">查看</el-button>
+          </router-link>
           <el-button
             v-if="scope.row.status == 1"
             type="primary"
@@ -121,7 +124,7 @@ export default {
       searchObj: {}, // 查询表单对象
       provinceList: [], //省份的列表
       cityList: [], //市列表
-      districtList: []
+      districtList: [],
     };
   }, // 生命周期函数：内存准备完毕，页面尚未渲染
 
@@ -129,18 +132,18 @@ export default {
     console.log("list created......");
     this.fetchData();
 
-    hospitalApi.getDictCode("Province").then(response => {
+    hospitalApi.getDictCode("Province").then((response) => {
       this.provinceList = response.data;
     });
   },
   methods: {
-    updateStatus(id,status){
-      hospitalApi.updateStatus(id,status).then((res)=>{
-        if(res.code==200){
+    updateStatus(id, status) {
+      hospitalApi.updateStatus(id, status).then((res) => {
+        if (res.code == 200) {
           //刷新列表
-          this.fetchData(this.page)
+          this.fetchData(this.page);
         }
-      })
+      });
     },
     //获取医院的列表信息
     fetchData(page = 1) {
@@ -149,7 +152,7 @@ export default {
       console.log("条件" + this.searchObj);
       hospitalApi
         .getPageList(this.page, this.limit, this.searchObj)
-        .then(res => {
+        .then((res) => {
           if (res.code == 200) {
             //返回数据成功
             this.list = res.data.content;
@@ -167,7 +170,7 @@ export default {
       // this.districtList = [];
       // this.searchObj.districtCode = null;
 
-      hospitalApi.getChildData(this.searchObj.provinceCode).then(res => {
+      hospitalApi.getChildData(this.searchObj.provinceCode).then((res) => {
         if (res.code === 200) {
           this.cityList = res.data;
           console.dir(this.cityList);
@@ -186,8 +189,8 @@ export default {
       this.limit = size;
       //重新刷新列表，返回变化后的数量
       this.fetchData(1);
-    }
-  }
+    },
+  },
 };
 </script>
 

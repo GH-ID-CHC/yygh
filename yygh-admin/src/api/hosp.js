@@ -5,33 +5,39 @@ const api_name = "/admin/hosp/hospital";
 export default {
   //查询医院列表
   // 条件查询
-  getPageList(page, limit,searchObj) {
+  getPageList(page, limit, searchObj) {
     return request({
       url: `${api_name}/list/${page}/${limit}`, //应用变量  斜引号
       method: "get",
       params: searchObj //条件对象通过参数提交
     });
   },
-   //查询数据字典中的所有数据
-   getChildData(id){
+  //查询数据字典中的所有数据
+  getChildData(id) {
     return request({
-      url:`/admin/cmn/dict/findChildData/${id}`,
-      method:'GET'
-    })
+      url: `/admin/cmn/dict/findChildData/${id}`,
+      method: "GET"
+    });
   },
   //查询子列表中所有的数据
-  getDictCode(dictCode){
+  getDictCode(dictCode) {
     return request({
-      url:`/admin/cmn/dict/findByDictCode/${dictCode}`,
-      method:'GET'
-    })
+      url: `/admin/cmn/dict/findByDictCode/${dictCode}`,
+      method: "GET"
+    });
   },
   //修改医院的在线状态
-  updateStatus(id,status){
+  updateStatus(id, status) {
     return request({
-      url:`${api_name}/updateStatus/${id}/${status}`,
-      method:'GET'
-    })
+      url: `${api_name}/updateStatus/${id}/${status}`,
+      method: "GET"
+    });
+  },
+  //查看医院的信息
+  getHospById(id) {
+    return request({
+      url: `${api_name}/getInfo/${id}`,
+      method: "GET"
+    });
   }
 };
-
