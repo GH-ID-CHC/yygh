@@ -1,6 +1,7 @@
 import request from "@/utils/request";
 // 定义公共请求路径
 const api_name = "/admin/hosp/hospital";
+const api_departname="/admin/hosp/department";
 
 export default {
   //查询医院列表
@@ -37,6 +38,13 @@ export default {
   getHospById(id) {
     return request({
       url: `${api_name}/getInfo/${id}`,
+      method: "GET"
+    });
+  },
+  //查看医院部门的信息
+  getDeptByHoscode(hoscode) {
+    return request({
+      url: `${api_departname}/getDepList/${hoscode}`,
       method: "GET"
     });
   }

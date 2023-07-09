@@ -6,6 +6,7 @@
     <table
       class="table table-striped table-condenseda table-bordered"
       width="100%"
+      v-if="hospital!=null"
     >
               
       <tbody>
@@ -39,7 +40,7 @@
                           
           <th>地址</th>
                           
-          <td>{{ hospital.param.fullAddress }}</td>
+          <td>{{ hospital.param.allString }}</td>
                       
         </tr>
                     
@@ -71,7 +72,7 @@
       width="100%"
     >
               
-      <tbody>
+      <tbody v-if="hospital!=null">
                     
         <tr>
                           
