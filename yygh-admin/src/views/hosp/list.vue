@@ -35,13 +35,16 @@
         <el-input v-model="searchObj.hosname" placeholder="医院名称" />
       </el-form-item>
 
-      <el-button type="primary" icon="el-icon-search" @click="fetchData()"
-        >查询</el-button
+      <el-button
+        type="primary"
+        icon="el-icon-search"
+        @click="fetchData()"
+      >查询</el-button
       >
       <el-button type="default" @click="resetData()">清空</el-button>
     </el-form>
 
-    <!-- banner列表 -->
+    <!--banner列表-->
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -60,7 +63,7 @@
           <img
             :src="'data:image/jpeg;base64,' + scope.row.logoData"
             width="80"
-          />
+          >
         </template>
       </el-table-column>
 
@@ -77,39 +80,41 @@
       <el-table-column label="操作" width="230" align="center">
         <template slot-scope="scope">
           <router-link :to="'/hospSet/hospital/show/' + scope.row.id">
-                 <el-button type="primary" size="mini">查看</el-button>
+            <el-button type="primary" size="mini">查看</el-button>
           </router-link>
           <router-link :to="'/hospSet/hospital/schedule/' + scope.row.hoscode">
-                <el-button type="primary" size="mini"
-              >排班</el-button
-            > </router-link
-          > 
+            <el-button
+              type="primary"
+              size="mini"
+            >排班</el-button
+          > </router-link
+          >
           <el-button
             v-if="scope.row.status == 1"
             type="primary"
             size="mini"
             @click="updateStatus(scope.row.id, 0)"
-            >下线</el-button
+          >下线</el-button
           >
           <el-button
             v-if="scope.row.status == 0"
             type="danger"
             size="mini"
             @click="updateStatus(scope.row.id, 1)"
-            >上线</el-button
+          >上线</el-button
           >
         </template>
       </el-table-column>
     </el-table>
 
-    <!-- 分页组件 -->
+    <!--分页组件-->
     <el-pagination
       :current-page="page"
       :total="total"
       :page-size="limit"
       :page-sizes="[5, 10, 20, 30, 40, 50, 100]"
-      style="padding: 30px 0;  text-align: center"
-      layout="sizes, prev, pager, next, jumper, ->, total, slot"
+      style="padding: 30px; text-align: center"
+      layout="sizes,prev,pager,next,jumper,->,total,slot"
       @current-change="fetchData"
       @size-change="changeSize"
     />
@@ -117,86 +122,86 @@
 </template>
 
 <script>
-import hospitalApi from "@/api/hosp";
+import hospitalApi from '@/api/hosp'
 export default {
   data() {
     return {
-      listLoading: true, // 数据是否正在加载
-      list: null, // banner列表
-      total: 0, // 数据库中的总记录数
-      page: 1, // 默认页码
-      limit: 10, // 每页记录数
-      searchObj: {}, // 查询表单对象
-      provinceList: [], //省份的列表
-      cityList: [], //市列表
-      districtList: [],
-    };
-  }, // 生命周期函数：内存准备完毕，页面尚未渲染
+      listLoading: true, // 数据是否正在加载
+      list: null, // banner列表
+      total: 0, // 数据库中的总记录数
+      page: 1, // 默认页码
+      limit: 10, // 每页记录数
+      searchObj: {}, // 查询表单对象
+      provinceList: [], // 省份的列表
+      cityList: [], // 市列表
+      districtList: []
+    }
+  }, // 生命周期函数：内存准备完毕，页面尚未渲染
 
   created() {
-    console.log("list created......");
-    this.fetchData();
+    console.log('listcreated......')
+    this.fetchData()
 
-    hospitalApi.getDictCode("Province").then((response) => {
-      this.provinceList = response.data;
-    });
+    hospitalApi.getDictCode('Province').then((response) => {
+      this.provinceList = response.data
+    })
   },
   methods: {
     updateStatus(id, status) {
       hospitalApi.updateStatus(id, status).then((res) => {
         if (res.code == 200) {
-          //刷新列表
-          this.fetchData(this.page);
+          // 刷新列表
+          this.fetchData(this.page)
         }
-      });
+      })
     },
-    //获取医院的列表信息
+    // 获取医院的列表信息
     fetchData(page = 1) {
-      console.log("当前页码" + page);
-      this.page = page;
-      console.log("条件" + this.searchObj);
+      console.log('当前页码' + page)
+      this.page = page
+      console.log('条件' + this.searchObj)
       hospitalApi
         .getPageList(this.page, this.limit, this.searchObj)
         .then((res) => {
           if (res.code == 200) {
-            //返回数据成功
-            this.list = res.data.content;
-            this.total = res.data.totalElements;
-            this.listLoading = false;
+            // 返回数据成功
+            this.list = res.data.content
+            this.total = res.data.totalElements
+            this.listLoading = false
           }
-        });
+        })
     },
     provinceChanged() {
-      console.dir(this.searchObj);
-      console.log("查看" + this.searchObj.cityCode);
-      //当省中选择的数据改变时
+      console.dir(this.searchObj)
+      console.log('查看' + this.searchObj.cityCode)
+      // 当省中选择的数据改变时
       // this.cityList = [];
-      this.searchObj.cityCode = null;
+      this.searchObj.cityCode = null
       // this.districtList = [];
       // this.searchObj.districtCode = null;
 
       hospitalApi.getChildData(this.searchObj.provinceCode).then((res) => {
         if (res.code === 200) {
-          this.cityList = res.data;
-          console.dir(this.cityList);
-          console.log("返回的数据" + this.cityList.name);
+          this.cityList = res.data
+          console.dir(this.cityList)
+          console.log('返回的数据' + this.cityList.name)
         }
-      });
+      })
     },
     resetData() {
-      //重置表单
-      this.searchObj = {};
-      this.fetchData();
+      // 重置表单
+      this.searchObj = {}
+      this.fetchData()
     },
     changeSize(size) {
-      //当每页记录发生变化时执行
-      console.log("当前页数量" + size);
-      this.limit = size;
-      //重新刷新列表，返回变化后的数量
-      this.fetchData(1);
-    },
-  },
-};
+      // 当每页记录发生变化时执行
+      console.log('当前页数量' + size)
+      this.limit = size
+      // 重新刷新列表，返回变化后的数量
+      this.fetchData(1)
+    }
+  }
+}
 </script>
 
 <style></style>

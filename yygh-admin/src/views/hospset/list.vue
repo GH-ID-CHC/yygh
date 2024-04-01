@@ -3,20 +3,20 @@
     <!-- 医院列表设置 -->
     <!-- 条件查询表单 -->
     <el-form :inline="true" class="demo-form-inline" style="text-align: left">
-         <el-form-item>
-             <el-input v-model="searchObj.hosname" placeholder="医院名称" />
-         </el-form-item
+      <el-form-item>
+        <el-input v-model="searchObj.hosname" placeholder="医院名称" />
+        </el-form-item
       >
-       <el-form-item>
-           <el-input v-model="searchObj.hoscode" placeholder="医院编号" />
+      <el-form-item>
+        <el-input v-model="searchObj.hoscode" placeholder="医院编号" />
       </el-form-item>
-       <el-button type="primary" icon="el-icon-search" @click="getList()"
+      <el-button type="primary" icon="el-icon-search" @click="getList()"
         >查询</el-button
       >
     </el-form>
     <!-- 工具条 -->
     <div>
-         
+
       <el-button type="danger" size="mini" @click="delHospSetByIds()"
         >批量删除</el-button
       >
@@ -52,7 +52,7 @@
       <el-table-column label="操作" width="170" align="center">
         <template slot-scope="scope">
           <!-- 修改按钮 -->
-          <router-link :to="'/hospSet/edit/' + scope.row.id">     
+          <router-link :to="'/hospSet/edit/' + scope.row.id">
             <el-button
               type="primary"
               size="mini"
@@ -73,11 +73,11 @@
     <el-pagination
       @current-page="current"
       @current-change="getList"
-      style="padding: 30px 0;  text-align: center"
+      style="padding: 30px0; text-align: center"
       background
       :page-size="limit"
       :total="total"
-      layout="total,prev, pager, next, jumper"
+      layout="total,prev, pager, next,jumper"
     >
     </el-pagination>
   </div>
@@ -117,7 +117,7 @@ export default {
         });
     },
     delHospSet(id) {
-      this.$confirm("此操作将永久删除医院的设置信息, 是否继续?", "提示", {
+      this.$confirm("此操作将永久删除医院的设置信息,是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
@@ -181,7 +181,7 @@ export default {
     },
     //批量删除
     delHospSetByIds() {
-      this.$confirm("此操作将永久删除医院是设置信息, 是否继续?", "提示", {
+      this.$confirm("此操作将永久删除医院是设置信息,是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",

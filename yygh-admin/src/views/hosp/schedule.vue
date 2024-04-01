@@ -3,60 +3,59 @@
     <div style="margin-bottom: 10px; font-size: 10px">选择：</div>
     <!--侧边栏的页面布局  -->
     <el-container style="height: 100%">
-      <el-aside width="200px" style="border: 1px silver solid">
-        <!-- 部门 -->
+      <el-aside width="200px" style="border: 1px silver solid">
+        <!--部门-->
         <el-tree
           :data="data"
           :props="defaultProps"
           :default-expand-all="true"
           @node-click="handleNodeClick"
-        >
-        </el-tree>
+        />
       </el-aside>
-      <el-main style="padding: 0 0 0 20px">
+      <el-main style="padding: 00020px">
         <el-row style="width: 100%">
-          <!-- 排班日期 分页 -->
+          <!--排班日期分页-->
         </el-row>
         <el-row style="margin-top: 20px">
-          <!-- 排班日期对应的排班医生 -->
+          <!--排班日期对应的排班医生-->
         </el-row>
       </el-main>
     </el-container>
   </div>
 </template>
 <script>
-import hospApi from "@/api/hosp";
+import hospApi from '@/api/hosp'
 export default {
   data() {
     return {
       data: [],
       defaultProps: {
-        children: "children",
-        label: "depname"
+        children: 'children',
+        label: 'depname'
       },
       hoscode: null
-    };
+    }
   },
   created() {
-    this.hoscode = this.$route.params.hoscode;
-    this.fetchData();
+    this.hoscode = this.$route.params.hoscode
+    this.fetchData()
   },
   methods: {
     fetchData() {
-      console.log("==>" + this.hoscode);
+      console.log('==>' + this.hoscode)
       hospApi.getDeptByHoscode(this.hoscode).then(response => {
-        this.data = response.data;
-      });
+        this.data = response.data
+      })
     }
   }
-};
+}
 </script>
 <style>
- .el-tree-node.is-current  >  .el-tree-node__content  {
-      background-color: #409eff !important;
-      color: white;
+.el-tree-node.is-current > .el-tree-node__content {
+  background-color: #409eff !important;
+  color: white;
 }
- .el-checkbox__input.is-checked + .el-checkbox__label  {
-      color: black;
+.el-checkbox__input.is-checked + .el-checkbox__label {
+  color: black;
 }
 </style>
