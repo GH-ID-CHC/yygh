@@ -175,7 +175,7 @@ export default {
       console.dir(this.searchObj)
       console.log('查看' + this.searchObj.cityCode)
       // 当省中选择的数据改变时
-      // this.cityList = [];
+      this.cityList = []
       this.searchObj.cityCode = null
       // this.districtList = [];
       // this.searchObj.districtCode = null;
