@@ -57,11 +57,11 @@ export const constantRouterMap = [
         meta: { title: '医院设置添加', icon: 'tree' }
       },
       {
-        path: 'edit/:id',//用于发送路径请求id的参数
+        path: 'edit/:id', // 用于发送路径请求id的参数
         name: '医院设置添加',
         component: () => import('@/views/hospset/add'),
-        meta: { title: '编辑', noCache: true},
-        hidden: true  //隐藏路由的设置
+        meta: { title: '编辑', noCache: true },
+        hidden: true // 隐藏路由的设置
       },
       {
         path: 'hosp/list',
@@ -70,37 +70,37 @@ export const constantRouterMap = [
         meta: { title: '医院列表', icon: 'tree' }
       },
       {
-        path:'hospital/show/:id',
-        name:'查看',
-        component:()=>import('@/views/hosp/show'),
-        meta:{title:'查看',noCache:true},
-        hidden:true
+        path: 'hospital/show/:id',
+        name: '查看',
+        component: () => import('@/views/hosp/show'),
+        meta: { title: '查看', noCache: true },
+        hidden: true
       },
       {
-        path:'hospital/schedule/:hoscode',
-        name:'排班',
-        component:()=>import('@/views/hosp/schedule'),
-        meta:{title:'排班',noCache:true},
-        hidden:true
+        path: 'hospital/schedule/:hoscode',
+        name: '排班',
+        component: () => import('@/views/hosp/schedule'),
+        meta: { title: '排班', noCache: true },
+        hidden: true
       }
 
     ]
   },
   {
-    path:'/cmn',
-component:Layout,
-redirect:'/cmn/list',
-name:'数据管理',
-alwaysShow:true,
-meta:{title:'数据管理',icon:'example'},
-children:[
-{
-path:'list',
-name:'数据字典',
-component:()=>import('@/views/dict/list'),
-meta:{title:'数据字典',icon:'table'}
-}
-]
+    path: '/cmn',
+    component: Layout,
+    redirect: '/cmn/list',
+    name: '数据管理',
+    alwaysShow: true,
+    meta: { title: '数据管理', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: '数据字典',
+        component: () => import('@/views/dict/list'),
+        meta: { title: '数据字典', icon: 'table' }
+      }
+    ]
   },
 
   {
