@@ -15,7 +15,12 @@
       <el-main style="padding: 0 0 0 20px">
         <el-row style="width: 100%">
           <!--排班日期分页-->
-          <el-tag v-for="(item,index) in bookingScheduleList" :key="item.id" :type="index == activeIndex ? '' : 'info'" style="height: 60px;margin-right: 5px;margin-right:15px;cursor:pointer;" @click="selectDate(item.workDate, index)">
+          <el-tag
+            v-for="(item,index) in bookingScheduleList"
+            :key="item.id"
+            :type="index == activeIndex ? '' : 'info'"
+            style="height: 60px;margin-right: 5px;margin-right:15px;cursor:pointer;"
+            @click="selectDate(item.workDate, index)">
             {{ item.workDate }} {{ item.dayOfWeek }}<br>
             {{ item.availableNumber }} / {{ item.reservedNumber }}
           </el-tag>
@@ -31,6 +36,35 @@
         </el-row>
         <el-row style="margin-top: 20px">
           <!--排班日期对应的排班医生-->
+          <el-table
+            v-loading="listLoading"
+            :data="scheduleList"
+            border
+            fit
+            highlight-current-row>
+            <el-table-column
+              label="序号"
+              width="60"
+              align="center">
+              <template slot-scope="scope">
+                {{ scope.$index + 1 }}
+              </template>
+            </el-table-column>
+            <el-table-column label="职称" width="150">
+              <template slot-scope="scope">
+                {{ scope.row.title }}   |   {{ scope.row.docname }}
+              </template>
+            </el-table-column>
+            <el-table-column label="号源时间" width="80">
+              <template slot-scope="scope">
+                {{ scope.row.workTime == 0 ? "上午" : "下午" }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="reservedNumber" label="可预约数" width="80"/>
+            <el-table-column prop="availableNumber" label="剩余预约数" width="100"/>
+            <el-table-column prop="amount" label="挂号费(元)" width="90"/>
+            <el-table-column prop="skill" label="擅长技能"/>
+          </el-table>
         </el-row>
       </el-main>
     </el-container>
@@ -51,13 +85,14 @@ export default {
       depcode: null,
       depname: null,
       workDate: null,
-
+      listLoading: false,
       bookingScheduleList: [],
       baseMap: {},
 
       page: 1, //  当前页
       limit: 7, //  每页个数
-      total: 0 //  总页码
+      total: 0, //  总页码
+      scheduleList: []// 排班详情
     }
   },
   created() {
@@ -99,6 +134,7 @@ export default {
         if (this.workDate == null) {
           this.workDate = this.bookingScheduleList[0].workDate
         }
+        this.getDetailSchedule()
       })
     },
     handleNodeClick(data) {
@@ -113,6 +149,8 @@ export default {
     selectDate(workDate, index) {
       this.workDate = workDate
       this.activeIndex = index
+      // 调用查询排班详情
+      this.getDetailSchedule()
     },
 
     getCurDate() {
@@ -121,6 +159,15 @@ export default {
       var month = datetime.getMonth() + 1 < 10 ? '0' + (datetime.getMonth() + 1) : datetime.getMonth() + 1
       var date = datetime.getDate() < 10 ? '0' + datetime.getDate() : datetime.getDate()
       return year + '-' + month + '-' + date
+    },
+    // 查询排班详情
+    getDetailSchedule() {
+      this.listLoading = true
+      hospApi.getScheduleDetail(this.hoscode, this.depcode, this.workDate)
+        .then(response => {
+          this.scheduleList = response.data
+        })
+      this.listLoading = false
     }
   }
 }

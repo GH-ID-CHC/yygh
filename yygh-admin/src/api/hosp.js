@@ -54,5 +54,12 @@ export default {
       url: `${api_schedule}/getScheduleRule/${page}/${limit}/${hoscode}/${depcode}`,
       method: 'get'
     })
+  },
+  // 查询排班详情
+  getScheduleDetail(hoscode, depcode, workDate) {
+    return request({
+      url: `${api_schedule}/getScheduleDetail/${hoscode}/${depcode}/${workDate}`,
+      method: 'get'
+    })
   }
 }
