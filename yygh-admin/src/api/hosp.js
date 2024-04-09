@@ -2,6 +2,7 @@ import request from '@/utils/request'
 // 定义公共请求路径
 const api_name = '/admin/hosp/hospital'
 const api_departname = '/admin/hosp/department'
+const api_schedule = '/admin/hosp/schedule'
 
 export default {
   // 查询医院列表
@@ -46,6 +47,12 @@ export default {
     return request({
       url: `${api_departname}/getDepList/${hoscode}`,
       method: 'GET'
+    })
+  },
+  getScheduleRule(page, limit, hoscode, depcode) {
+    return request({
+      url: `${api_schedule}/getScheduleRule/${page}/${limit}/${hoscode}/${depcode}`,
+      method: 'get'
     })
   }
 }
