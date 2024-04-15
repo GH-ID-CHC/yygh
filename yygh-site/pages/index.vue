@@ -169,8 +169,16 @@ export default {
   },
   data() {
     return {
-      state:"",
-      hostypeList:[]
+      searchObj: {},
+      page: 1,
+      limit: 10,
+      state:'',
+      hosname: '', //医院名称
+      hostypeList: [], //医院等级集合
+      districtList: [], //地区集合
+
+      hostypeActiveIndex: 0,
+      provinceActiveIndex: 0
     }
   },
   created() {
@@ -200,8 +208,49 @@ export default {
           }
         })
     },
-    handleSelect(){},
-    querySearchAsync(){},
+    handleSelect(){
+      window.location.href = '/hospital/' + item.hoscode
+    },
+    //在输入框输入值，弹出下拉框，显示相关内容
+    querySearchAsync(queryString, cb) {
+      this.searchObj = []
+      if(queryString == '') return
+      hospApi.getByHosname(queryString).then(response => {
+        for (let i = 0, len = response.data.length; i <len; i++) {
+          response.data[i].value = response.data[i].hosname
+        }
+        cb(response.data)
+      })
+    },
+    hostypeSelect(hostype,index){
+      //准备数据
+      this.list = []
+      this.page = 1
+      this.hostypeActiveIndex = index
+      this.searchObj.hostype = hostype
+      //调用查询医院列表方法
+      this.getList()
+    },
+    getList() {
+      hospApi.getPageList(this.page,this.limit,this.searchObj)
+        .then(response => {
+          for(let i in response.data.content) {
+            this.list.push(response.data.content[i])
+          }
+          this.page = response.data.totalPages
+        })
+    },
+    districtSelect(districtCode, index){
+      this.list = []
+      this.page = 1
+      this.provinceActiveIndex = index
+      this.searchObj.districtCode = districtCode
+      this.getList();
+    },
+    //点击某个医院名称，跳转到详情页面中
+    show(hoscode) {
+      window.location.href = '/hospital/' + hoscode
+    }
   }
 }
 </script>
