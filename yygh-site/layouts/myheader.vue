@@ -43,10 +43,11 @@
 export default {
   data(){
     return{
-
+      state:''
     }
   },
   methods:{
+    handleSelect(){},
     querySearchAsync(){}
   }
 }
