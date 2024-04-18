@@ -144,7 +144,7 @@ export default {
         code: '',
         openid: ''
       },
-
+      state:'',
       dialogUserFormVisible: false,
       // 弹出层相关属性
       dialogAtrr: defaultDialogAtrr,
@@ -155,6 +155,15 @@ export default {
 
   created() {
     this.showInfo()
+  },
+  mounted() {
+// 注册全局登录事件对象
+    window.loginEvent = new Vue();
+// 监听登录事件
+    loginEvent.$on('loginDialogEvent', function () {
+      document.getElementById("loginDialog").click();
+    })
+// 触发事件，显示登录层：loginEvent.$emit('loginDialogEvent')
   },
   methods: {
     // 绑定登录或获取验证码按钮
@@ -295,6 +304,8 @@ export default {
     phoneLogin() {
       this.dialogAtrr.showLoginType = 'phone'
       this.showLogin()
+    },
+    querySearchAsync(){
     }
   }
 }
