@@ -26,9 +26,9 @@
         <span class="v-link clickable">帮助中心</span>
         <span v-if="name == ''" class="v-link clickable" @click="showLogin()" id="loginDialog">登录/注册</span>
         <el-dropdown v-if="name != ''" @command="loginMenu">
-              <span class="el-dropdown-link">
-                {{ name }}<i class="el-icon-arrow-down el-icon--right"></i>
-              </span>
+                  <span class="el-dropdown-link">
+                    {{ name }}<i class="el-icon-arrow-down el-icon--right"></i>
+                  </span>
           <el-dropdown-menu class="user-name-wrapper" slot="dropdown">
             <el-dropdown-item command="/user">实名认证</el-dropdown-item>
             <el-dropdown-item command="/order">挂号订单</el-dropdown-item>
@@ -38,6 +38,7 @@
         </el-dropdown>
       </div>
     </div>
+
     <!-- 登录弹出层 -->
     <el-dialog :visible.sync="dialogUserFormVisible" style="text-align: left;" top="50px" :append-to-body="true"
                width="960px" @close="closeDialog()">
@@ -63,11 +64,9 @@
               <div class="send-button v-button" @click="btnClick()"> {{ dialogAtrr.loginBtn }}</div>
             </div>
             <div class="bottom">
-              <div class="wechat-wrapper" @click="weixinLogin()">
-                <span class="iconfont icon"></span>
-              </div>
-              <span class="third-text"> 第三方账号登录</span>
-            </div>
+              <div class="wechat-wrapper" @click="weixinLogin()"><span
+                class="iconfont icon"></span></div>
+              <span class="third-text"> 第三方账号登录 </span></div>
           </div>
         </div>
         <!-- 手机登录 #end -->
@@ -80,11 +79,9 @@
             </div>
             <div class="bottom wechat" style="margin-top: -80px;">
               <div class="phone-container">
-                <div class="phone-wrapper" @click="phoneLogin()">
-                  <span class="iconfont icon"></span>
-                </div>
-                <span class="third-text"> 手机短信验证码登录 </span>
-              </div>
+                <div class="phone-wrapper" @click="phoneLogin()"><span
+                  class="iconfont icon"></span></div>
+                <span class="third-text"> 手机短信验证码登录 </span></div>
             </div>
           </div>
         </div>
@@ -93,13 +90,13 @@
         <div class="info-wrapper">
           <div class="code-wrapper">
             <div><img src="//img.114yygh.com/static/web/code_login_wechat.png" class="code-img">
-              <div class="code-text">
-                <span class="iconfont icon"></span>微信扫一扫关注
+              <div class="code-text"><span class="iconfont icon"></span>微信扫一扫关注
               </div>
               <div class="code-text"> “快速预约挂号”</div>
             </div>
-            <div class="wechat-code-wrapper">
-              <img src="//img.114yygh.com/static/web/code_app.png" class="code-img">
+            <div class="wechat-code-wrapper"><img
+              src="//img.114yygh.com/static/web/code_app.png"
+              class="code-img">
               <div class="code-text"> 扫一扫下载</div>
               <div class="code-text"> “预约挂号”APP</div>
             </div>
@@ -116,7 +113,6 @@
 <script>
 import cookie from 'js-cookie'
 import Vue from 'vue'
-
 import userInfoApi from '@/api/userInfo'
 import smsApi from '@/api/msm'
 import hospitalApi from '@/api/hospital'
@@ -144,7 +140,7 @@ export default {
         code: '',
         openid: ''
       },
-      state:'',
+      state: '',
       dialogUserFormVisible: false,
       // 弹出层相关属性
       dialogAtrr: defaultDialogAtrr,
@@ -156,15 +152,17 @@ export default {
   created() {
     this.showInfo()
   },
+
   mounted() {
-// 注册全局登录事件对象
+    // 注册全局登录事件对象
     window.loginEvent = new Vue();
-// 监听登录事件
+    // 监听登录事件
     loginEvent.$on('loginDialogEvent', function () {
       document.getElementById("loginDialog").click();
     })
-// 触发事件，显示登录层：loginEvent.$emit('loginDialogEvent')
+    // 触发事件，显示登录层：loginEvent.$emit('loginDialogEvent')
   },
+
   methods: {
     // 绑定登录或获取验证码按钮
     btnClick() {
@@ -305,7 +303,8 @@ export default {
       this.dialogAtrr.showLoginType = 'phone'
       this.showLogin()
     },
-    querySearchAsync(){
+
+    querySearchAsync() {
     }
   }
 }
