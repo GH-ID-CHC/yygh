@@ -115,6 +115,19 @@ export const constantRouterMap = [
         name: '用户列表',
         component: () =>import('@/views/user/userInfo/list'),
         meta: { title: '用户列表', icon: 'table' }
+      },
+      {
+        path: 'userInfo/show/:id',
+        name: '用户查看',
+        component: () =>import('@/views/user/userInfo/show'),
+        meta: { title: '用户查看' },
+        hidden: true
+      },
+      {
+        path: 'userInfo/authList',
+        name: '认证审批列表',
+        component: () =>import('@/views/user/userInfo/authList'),
+        meta: { title: '认证审批列表', icon: 'table' }
       }
     ]
   },
